@@ -288,6 +288,12 @@ export interface Mouse extends Pick<_Worker, "getPos"> {
    * @param [delay=0] - milliseconds to await after wheel scroll, if not provided defaults to `0`
    */
   scrollWheel(amount: number, delay?: Delay): Promise<void>;
+
+  /**
+   * Show or hide mouse cursor
+   * @param state - `true` for show, `false` for hide
+   */
+  showCursor(state: boolean): void;
 }
 
 export interface Workwindow

@@ -26,3 +26,7 @@ void Mouse::move(const Napi::CallbackInfo &info) {
 
   mover(coords, info[2].As<Napi::Boolean>());
 }
+
+void Mouse::showCursor(bool isVisible) {
+    ShowCursor(isVisible ? TRUE : FALSE);
+}

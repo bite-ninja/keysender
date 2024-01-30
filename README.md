@@ -502,6 +502,20 @@ console.log(obj.mouse.getPos()); // {x: 25, y: 50}
 
 ---
 
+### showCursor
+
+Shows or hides the mouse cursor
+
+```ts
+import { Hardware } from "keysender";
+
+const obj = new Hardware(handle); 
+
+await obj.mouse.showCursor(false); // cursor invisible from here
+```
+
+---
+
 ### workwindow
 
 Provides methods to work with workwindow
