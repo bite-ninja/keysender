@@ -10,7 +10,7 @@ class Mouse {
   void toggleMb(const Napi::CallbackInfo &info);
   void move(const Napi::CallbackInfo &info);
   void scrollWheel(const Napi::CallbackInfo &info);
-  void showCursor(bool isVisible);
+  void showCursor(const Napi::CallbackInfo &info);
 
  protected:
   POINT lastCoords = {0, 0};
