@@ -20,6 +20,7 @@ jobs:
           package-name: "@bite-ninja/keysender"
           package-type: npm
           num-old-versions-to-delete: 3
+          token: ${{secrets.GITHUB_TOKEN}}
       # - name: Publish package
       #   run: yarn publish --platform win32
       #   env:
