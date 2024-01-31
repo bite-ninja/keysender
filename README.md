@@ -84,6 +84,7 @@ new GlobalHotkey({
     - [.humanMoveTo](#humanmoveto)
     - [.scrollWheel](#scrollwheel)
     - [.getPos](#getpos)
+    - [.showCurso](#showcursor)
   - [.workwindow](#workwindow)
     - [.set](#set)
     - [.get](#get)
@@ -509,7 +510,7 @@ Shows or hides the mouse cursor
 ```ts
 import { Hardware } from "keysender";
 
-const obj = new Hardware(handle); 
+const obj = new Hardware(handle);
 
 await obj.mouse.showCursor(false); // cursor invisible from here
 ```
