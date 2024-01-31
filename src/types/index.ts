@@ -293,7 +293,7 @@ export interface Mouse extends Pick<_Worker, "getPos"> {
    * Show or hide mouse cursor
    * @param state - `true` for show, `false` for hide
    */
-  showCursor(state: boolean): void;
+  hideCursor(): void;
 }
 
 export interface Workwindow

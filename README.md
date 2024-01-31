@@ -84,7 +84,7 @@ new GlobalHotkey({
     - [.humanMoveTo](#humanmoveto)
     - [.scrollWheel](#scrollwheel)
     - [.getPos](#getpos)
-    - [.showCurso](#hideCursor)
+    - [.hideCursor](#hideCursor)
   - [.workwindow](#workwindow)
     - [.set](#set)
     - [.get](#get)
