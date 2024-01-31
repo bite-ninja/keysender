@@ -84,7 +84,7 @@ new GlobalHotkey({
     - [.humanMoveTo](#humanmoveto)
     - [.scrollWheel](#scrollwheel)
     - [.getPos](#getpos)
-    - [.showCurso](#showcursor)
+    - [.showCurso](#hideCursor)
   - [.workwindow](#workwindow)
     - [.set](#set)
     - [.get](#get)
@@ -503,16 +503,16 @@ console.log(obj.mouse.getPos()); // {x: 25, y: 50}
 
 ---
 
-### showCursor
+### hideCursor
 
-Shows or hides the mouse cursor
+Hides the mouse cursor
 
 ```ts
 import { Hardware } from "keysender";
 
 const obj = new Hardware(handle);
 
-await obj.mouse.showCursor(false); // cursor invisible from here
+await obj.mouse.hideCursor(); // cursor invisible from here
 ```
 
 ---

@@ -468,8 +468,8 @@ const handleWorker = (WorkerClass: typeof _Worker): typeof Worker =>
               return sleep(delay);
             },
 
-            showCursor(state: boolean) {
-              worker.showCursor(state);
+            hideCursor() {
+              worker.hideCursor();
             },
           };
         },

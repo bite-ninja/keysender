@@ -27,6 +27,10 @@ void Mouse::move(const Napi::CallbackInfo &info) {
   mover(coords, info[2].As<Napi::Boolean>());
 }
 
-void Mouse::showCursor(const Napi::CallbackInfo &info) {
-    ShowCursor(info[0].As<Napi::Boolean>() ? TRUE : FALSE);
+void Mouse::hideCursor(const Napi::CallbackInfo &info) {
+  int screenWidth = GetSystemMetrics(SM_CXSCREEN); // Get the screen width
+  int screenHeight = GetSystemMetrics(SM_CYSCREEN); // Get the screen height
+
+  // Set the cursor position to coordinates beyond the screen dimensions
+  SetCursorPos(screenWidth + 100, screenHeight + 100);
 }

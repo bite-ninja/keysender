@@ -196,7 +196,7 @@ Napi::Object Hardware::Init(Napi::Env env, Napi::Object exports) {
           InstanceMethod("toggleMb", &Hardware::toggleMb),
           InstanceMethod("move", &Hardware::move),
           InstanceMethod("scrollWheel", &Hardware::scrollWheel),
-          InstanceMethod("showCursor", &Hardware::showCursor),
+          InstanceMethod("hideCursor", &Hardware::hideCursor),
           InstanceMethod("toggleKey", &Hardware::toggleKey),
           InstanceMethod("printChar", &Hardware::printChar),
           InstanceMethod("isOpen", &Hardware::isOpen),

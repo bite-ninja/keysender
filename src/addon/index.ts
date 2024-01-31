@@ -24,7 +24,7 @@ export declare class _Worker {
 
   scrollWheel(amount: number): void;
 
-  showCursor(state: boolean): void;
+  hideCursor(): void;
 
   toggleKey(key: KeyboardButton | number, state: boolean): void;
 
