@@ -1,6 +1,6 @@
 {
-  "name": "keysender",
-  "version": "2.3.0",
+  "name": "@bite-ninja/keysender",
+  "version": "2.3.3",
   "description": "Node.js keyboard and mouse inputs emulator, global hotkey register for Windows",
   "keywords": [
     "automation",
@@ -27,7 +27,10 @@
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Krombik/keysender.git"
+    "url": "git+https://github.com/bite-ninja/keysender.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "author": "Krombik",
   "license": "MIT",
