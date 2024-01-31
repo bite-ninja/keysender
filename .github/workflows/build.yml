@@ -19,7 +19,6 @@ jobs:
         with:
           package-name: "@bite-ninja/keysender"
           package-type: npm
-          min-versions-to-keep: 0
           num-old-versions-to-delete: 3
       # - name: Publish package
       #   run: yarn publish --platform win32
