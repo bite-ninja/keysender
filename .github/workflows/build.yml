@@ -16,9 +16,11 @@ jobs:
       - run: yarn build
       - name: Delete Package if Exists
         uses: actions/delete-package-versions@v4
+        continue-on-error: true
         with:
           package-name: "keysender"
           package-type: npm
+          delete-only-pre-release-versions: true
           min-versions-to-keep: 0
       - name: Publish package
         run: yarn publish --platform win32
