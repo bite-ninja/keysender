@@ -1,0 +1,26 @@
+name: build
+run-name: Build remote agent
+on: [push]
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "yarn"
+      - run: yarn install
+      - run: yarn build
+      - name: Delete Release if Exists
+        uses: actions/delete-package-versions@v4
+        with:
+          package-name: "@bite-ninja/keysender"
+          package-type: npm
+          min-versions-to-keep: 0
+      # - name: Publish package
+      #   run: yarn publish --platform win32
+      #   env:
+      #     COMMIT_HASH: ${{ github.sha }}
