@@ -4,9 +4,10 @@
 
 #include "keyboard.hpp"
 #include "mouse.hpp"
+#include "touch.hpp"
 #include "workwindow.hpp"
 
-class Hardware : public Keyboard, public Mouse, public Workwindow, public Napi::ObjectWrap<Hardware> {
+class Hardware : public Keyboard, public Mouse, public Touch, public Workwindow, public Napi::ObjectWrap<Hardware> {
  public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
   Hardware(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Hardware>(info){};

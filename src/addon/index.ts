@@ -26,6 +26,8 @@ export declare class _Worker {
 
   hideCursor(): void;
 
+  toggleTap(x: number, y: number, state: boolean): boolean;
+
   toggleKey(key: KeyboardButton | number, state: boolean): void;
 
   printChar(buffer: Buffer): void;

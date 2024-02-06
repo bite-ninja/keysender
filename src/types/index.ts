@@ -296,6 +296,22 @@ export interface Mouse extends Pick<_Worker, "getPos"> {
   hideCursor(): void;
 }
 
+export interface Touch {
+  /**
+   * Simulate touch event in current workwindow
+   * @param x - x coordinate of touch
+   * @param y - y coordinate of touch
+   * @param state - touch state selection: `true` for press, `false` for release
+   * @param [delay=0] - milliseconds to await after touch, if not provided defaults to `0`
+   */
+  toggleTap(
+    x: number,
+    y: number,
+    state: boolean,
+    delay?: Delay
+  ): Promise<boolean>;
+}
+
 export interface Workwindow
   extends Pick<
     _Worker,

@@ -8,7 +8,14 @@ import {
   sleep,
   stringsToBuffers,
 } from "./utils";
-import { Keyboard, KeyboardButton, Mouse, RGB, Workwindow } from "./types";
+import {
+  Keyboard,
+  KeyboardButton,
+  Mouse,
+  RGB,
+  Touch,
+  Workwindow,
+} from "./types";
 import { DEFAULT_DELAY, MICRO_DELAY } from "./constants";
 import { SetWorkwindow } from "./types/utils";
 
@@ -18,6 +25,9 @@ declare class Worker {
 
   /** Provides methods to synthesize mouse motions, and button clicks */
   readonly mouse: Mouse;
+
+  /** Provides methods to synthesize touch interaction, such as taps and gestures */
+  readonly touch: Touch;
 
   /** Provides methods to work with workwindow */
   readonly workwindow: Workwindow;
@@ -54,6 +64,8 @@ const handleWorker = (WorkerClass: typeof _Worker): typeof Worker =>
     declare readonly keyboard: Keyboard;
 
     declare readonly mouse: Mouse;
+
+    declare readonly touch: Touch;
 
     declare readonly workwindow: Workwindow;
 
@@ -470,6 +482,17 @@ const handleWorker = (WorkerClass: typeof _Worker): typeof Worker =>
 
             hideCursor() {
               worker.hideCursor();
+            },
+          };
+        },
+
+        touch() {
+          return {
+            async toggleTap(x, y, state, delay = 0) {
+              const retVal = worker.toggleTap(x, y, state);
+
+              await sleep(delay);
+              return retVal;
             },
           };
         },

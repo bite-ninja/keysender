@@ -13,7 +13,8 @@
                 "src/addon/disableInput.cpp",
                 "src/addon/hook.cpp",
                 "src/addon/helper.cpp",
-                "src/addon/utilities.cpp"
+                "src/addon/utilities.cpp",
+                "src/addon/touch.cpp",
             ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")"

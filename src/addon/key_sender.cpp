@@ -5,6 +5,7 @@
 #include "hotkey.hpp"
 #include "utilities.hpp"
 #include "virtual.hpp"
+#include  "touch.hpp"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   Hardware::Init(env, exports);

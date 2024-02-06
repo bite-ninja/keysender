@@ -42,13 +42,15 @@ const std::map<std::string, std::array<UINT, 2>> Hardware::buttonsDef = {
     {"x1", {MOUSEEVENTF_XUP, MOUSEEVENTF_XDOWN}},
     {"x2", {MOUSEEVENTF_XUP, MOUSEEVENTF_XDOWN}}};
 
-void Hardware::mousePosGetter(POINT *coords) {
+void Hardware::mousePosGetter(POINT *coords)
+{
   GetCursorPos(coords);
 
   ScreenToClient(hWnd, coords);
 }
 
-Napi::Value Hardware::getLastCoords(const Napi::CallbackInfo &info) {
+Napi::Value Hardware::getLastCoords(const Napi::CallbackInfo &info)
+{
   Napi::Object coords = Napi::Object::New(info.Env());
 
   POINT curr;
@@ -63,7 +65,8 @@ Napi::Value Hardware::getLastCoords(const Napi::CallbackInfo &info) {
   return coords;
 };
 
-void Hardware::mbToggler(std::string button, bool isButtonDown) {
+void Hardware::mbToggler(std::string button, bool isButtonDown)
+{
   INPUT ip;
 
   ip.type = INPUT_MOUSE;
@@ -80,21 +83,29 @@ void Hardware::mbToggler(std::string button, bool isButtonDown) {
   SendInput(1, &ip, sizeof(INPUT));
 }
 
-void Hardware::mover(POINT coords, bool isAbsolute) {
+void Hardware::mover(POINT coords, bool isAbsolute)
+{
   INPUT ip;
 
-  if (isAbsolute) {
+  if (isAbsolute)
+  {
     ClientToScreen(hWnd, &coords);
 
-    if (coords.x < 0) {
+    if (coords.x < 0)
+    {
       coords.x = 0;
-    } else if (coords.x >= screenWidth) {
+    }
+    else if (coords.x >= screenWidth)
+    {
       coords.x = screenWidth - 1;
     }
 
-    if (coords.y < 0) {
+    if (coords.y < 0)
+    {
       coords.y = 0;
-    } else if (coords.y >= screenHeigh) {
+    }
+    else if (coords.y >= screenHeigh)
+    {
       coords.y = screenHeigh - 1;
     }
   }
@@ -106,11 +117,14 @@ void Hardware::mover(POINT coords, bool isAbsolute) {
   ip.mi.time = 0;
   ip.mi.dwFlags = MOUSEEVENTF_MOVE;
 
-  if (isAbsolute) {
+  if (isAbsolute)
+  {
     ip.mi.dx = ((coords.x - GetSystemMetrics(SM_XVIRTUALSCREEN) + 1) << 16) / GetSystemMetrics(SM_CXVIRTUALSCREEN);
     ip.mi.dy = ((coords.y - GetSystemMetrics(SM_YVIRTUALSCREEN) + 1) << 16) / GetSystemMetrics(SM_CYVIRTUALSCREEN);
     ip.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_VIRTUALDESK;
-  } else {
+  }
+  else
+  {
     ip.mi.dx = coords.x;
     ip.mi.dy = coords.y;
   }
@@ -118,7 +132,8 @@ void Hardware::mover(POINT coords, bool isAbsolute) {
   SendInput(1, &ip, sizeof(INPUT));
 }
 
-void Hardware::wheelScroller(int x) {
+void Hardware::wheelScroller(int x)
+{
   INPUT ip;
 
   ip.type = INPUT_MOUSE;
@@ -133,16 +148,19 @@ void Hardware::wheelScroller(int x) {
   SendInput(1, &ip, sizeof(INPUT));
 }
 
-void Hardware::keyToggler(UINT key, bool isKeyDown) {
+void Hardware::keyToggler(UINT key, bool isKeyDown)
+{
   INPUT ip;
 
   DWORD dwFlags = KEYEVENTF_SCANCODE;
 
-  if (!isKeyDown) {
+  if (!isKeyDown)
+  {
     dwFlags |= KEYEVENTF_KEYUP;
   }
 
-  if (std::find(std::begin(extendKeys), std::end(extendKeys), key) != std::end(extendKeys)) {
+  if (std::find(std::begin(extendKeys), std::end(extendKeys), key) != std::end(extendKeys))
+  {
     dwFlags |= KEYEVENTF_EXTENDEDKEY;
   }
 
@@ -157,10 +175,12 @@ void Hardware::keyToggler(UINT key, bool isKeyDown) {
   SendInput(1, &ip, sizeof(INPUT));
 }
 
-void Hardware::charPrinter(std::wstring str) {
+void Hardware::charPrinter(std::wstring str)
+{
   std::vector<INPUT> vec;
 
-  for (size_t i = 0; i < str.size(); i++) {
+  for (size_t i = 0; i < str.size(); i++)
+  {
     INPUT input;
 
     input.type = INPUT_KEYBOARD;
@@ -185,8 +205,33 @@ void Hardware::charPrinter(std::wstring str) {
 
 Napi::FunctionReference Hardware::constructor;
 
-Napi::Object Hardware::Init(Napi::Env env, Napi::Object exports) {
+Napi::Object Hardware::Init(Napi::Env env, Napi::Object exports)
+{
   Napi::HandleScope scope(env);
+
+  std::cout << "Initializing touch injection" << std::endl;
+  BOOL initSuccess = InitializeTouchInjection(1, TOUCH_FEEDBACK_DEFAULT);
+  if (!initSuccess)
+  {
+    // Initialization failed, retrieve the last error code
+    DWORD err = GetLastError();
+    std::cerr << "InitializeTouchInjection failed with error: " << err << std::endl;
+
+    // Optionally, convert error code to a human-readable string (requires linking with FormatMessage)
+    LPSTR messageBuffer = nullptr;
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                                 NULL, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+    std::string message(messageBuffer, size);
+    std::cerr << "Error message: " << message << std::endl;
+
+    // Free the buffer allocated by FormatMessage
+    LocalFree(messageBuffer);
+  }
+  else
+  {
+    std::cout << "InitializeTouchInjection ran successfully!" << std::endl;
+  }
 
   Napi::Function func = DefineClass(
       env,
@@ -197,6 +242,7 @@ Napi::Object Hardware::Init(Napi::Env env, Napi::Object exports) {
           InstanceMethod("move", &Hardware::move),
           InstanceMethod("scrollWheel", &Hardware::scrollWheel),
           InstanceMethod("hideCursor", &Hardware::hideCursor),
+          InstanceMethod("toggleTap", &Hardware::toggleTap),
           InstanceMethod("toggleKey", &Hardware::toggleKey),
           InstanceMethod("printChar", &Hardware::printChar),
           InstanceMethod("isOpen", &Hardware::isOpen),
